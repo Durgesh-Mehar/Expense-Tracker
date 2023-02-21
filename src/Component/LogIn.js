@@ -1,49 +1,55 @@
 import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 
-export default function SignUp() {
-  const emailref = useRef();
-  const passwardref = useRef();
-  const confirmpasswordref = useRef();
-  const submithandler = (e) => {
-    e.preventDefault();
-    const enteredemail = emailref.current.value;
-    const enteredpassward = passwardref.current.value;
-    const enteredconfirmpassward = confirmpasswordref.current.value;
+export default function LogIn() {
+  const history = useNavigate();
+  const emailInputref = useRef();
+  const passwordInputref = useRef();
 
-    if (enteredpassward !== enteredconfirmpassward) {
-      alert("both passward are not matched");
-      return;
-    }
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const enteredEmail = emailInputref.current.value;
+    const enteredpassword = passwordInputref.current.value;
+    localStorage.setItem("userEmail", enteredEmail);
+    //console.log(enteredEmail,enteredpassword)
 
     fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDh86gDOATmnQKrj5jnVFM7Ck9PbeaR0W0",
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDh86gDOATmnQKrj5jnVFM7Ck9PbeaR0W0",
       {
         method: "POST",
         body: JSON.stringify({
-          email: enteredemail,
-          password: enteredpassward,
+          email: enteredEmail,
+          password: enteredpassword,
           returnSecureToken: true,
         }),
         headers: {
           "Content-Type": "application/json",
         },
       }
-    ).then((res) => {
-      if (res.ok) {
-        console.log("user is succesfully signed up");
-        return res.json();
-      } else {
-        res.json().then((data) => {
-          let errorMessage = "Authentication failed";
-          if (data && data.error && data.error.message) {
-            errorMessage = data.error.message;
-          }
-          alert(errorMessage);
-        });
-      }
-    });
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          res.json().then((data) => {
+            //this also return a promise
+            let errormessage = "authenication Failed";
+            if (data && data.error && data.error.message) {
+              errormessage = data.error.message;
+            }
+            throw new Error(errormessage);
+          });
+        }
+      })
+      .then((data) => {
+        localStorage.setItem("token", data.idToken);
+        console.log(data.idToken);
+        history("/welcome");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   return (
@@ -55,10 +61,10 @@ export default function SignUp() {
               <Card.Body>
                 <div className="mb-3 mt-md-4">
                   <h2 className="fw-bold mb-2 text-center text-uppercase ">
-                    Sign Up
+                    Sign In
                   </h2>
                   <div className="mb-3">
-                    <Form onSubmit={submithandler}>
+                    <Form onSubmit={submitHandler}>
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="text-center">
                           Email address
@@ -66,7 +72,7 @@ export default function SignUp() {
                         <Form.Control
                           type="email"
                           placeholder="Enter email"
-                          ref={emailref}
+                          ref={emailInputref}
                         />
                       </Form.Group>
 
@@ -78,35 +84,27 @@ export default function SignUp() {
                         <Form.Control
                           type="password"
                           placeholder="Password"
-                          ref={passwardref}
+                          ref={passwordInputref}
                         />
                       </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicPassword"
-                      >
-                        <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control
-                          type="password"
-                          placeholder="Password"
-                          ref={confirmpasswordref}
-                        />
-                      </Form.Group>
+
                       <Form.Group
                         className="mb-3"
                         controlId="formBasicCheckbox"
                       ></Form.Group>
                       <div className="d-grid">
                         <Button variant="primary" type="submit">
-                          Sign UP
+                          Sign In
                         </Button>
                       </div>
                     </Form>
                     <div className="mt-3">
-                        <p className="mb-0  text-center">
-                          Already have an account??{" "}
-                          <Link className="text-primary fw-bold" to="login">Log in</Link>
-                        </p>
+                      <p className="mb-0  text-center">
+                        Forget passward??{" "}
+                        <a href="{''}" className="text-primary fw-bold">
+                          forget passward
+                        </a>
+                      </p>
                     </div>
                   </div>
                 </div>
