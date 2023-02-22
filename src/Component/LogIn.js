@@ -45,7 +45,7 @@ export default function LogIn() {
       .then((data) => {
         localStorage.setItem("token", data.idToken);
         console.log(data.idToken);
-        history("/welcome");
+        history('/welcome');
       })
       .catch((err) => {
         alert(err.message);

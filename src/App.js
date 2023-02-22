@@ -2,13 +2,15 @@ import { Route, Routes } from 'react-router-dom';
 import SignUp from './Component/SignUp';
 import LogIn from './Component/LogIn';
 import Welcome from './Component/pages/Welcome';
+import CompleteProfile from './Component/pages/CompleteProfile';
 
 function App() {
   return (
     <Routes>
       <Route path='/' element={<SignUp/>} />
       <Route path="login" element={<LogIn />} />
-      <Route path='welcome' element={<Welcome/>}/>
+      <Route path='/welcome' element={<Welcome/>}/>
+      <Route path='welcome/completeprofile' element={<CompleteProfile/>} />
     </Routes>
   );
 }
