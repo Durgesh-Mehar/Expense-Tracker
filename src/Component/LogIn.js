@@ -1,12 +1,43 @@
 import React, { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 
 export default function LogIn() {
   const history = useNavigate();
   const emailInputref = useRef();
   const passwordInputref = useRef();
+  
+    const handleForgotPassword = (e) => {
+        e.preventDefault();
+        const enteredEmail = emailInputref.current.value;
 
+        fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDh86gDOATmnQKrj5jnVFM7Ck9PbeaR0W0',{
+            method:"POST",
+            body:JSON.stringify({
+                requestType:"PASSWORD_RESET",
+                email:enteredEmail
+            }),
+            headers:{
+                'Content-Type':'application/json'
+            }
+        }).then((res)=>{
+            if(res.ok){
+                return res.json();
+            }else{
+                return res.json().then((data)=>{
+                    if(data && data.error && data.error.message){
+                        let errMessage = "Authentication Failed, " + data.error.message;
+                        throw new Error(errMessage);
+                    }
+                })
+            }
+        }).then((data)=>{
+            console.log(data);
+            console.log("Forgrt Password  Link are Sending Sussesfully")
+        }).catch((err)=>{
+            alert(err.meassage);
+        })
+  }
   const submitHandler = (e) => {
     e.preventDefault();
     const enteredEmail = emailInputref.current.value;
@@ -99,13 +130,12 @@ export default function LogIn() {
                       </div>
                     </Form>
                     <div className="mt-3">
-                      <p className="mb-0  text-center">
+                        <p className="mb-0  text-center">
                         Forget passward??{" "}
-                        <a href="{''}" className="text-primary fw-bold">
-                          forget passward
-                        </a>
-                      </p>
+                          <Link className="text-primary fw-bold"onClick={handleForgotPassword} >forget passward</Link>
+                        </p>
                     </div>
+
                   </div>
                 </div>
               </Card.Body>
