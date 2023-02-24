@@ -21,7 +21,3 @@ function App() {
 
 export default App;
 
-
-//import { Link } from "react-router-dom";
-//<Link to="/login">Log in</Link>
-// history("/welcome");

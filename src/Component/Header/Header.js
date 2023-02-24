@@ -12,6 +12,7 @@ const Header = (props) => {
   const history = useNavigate();
   const isLoggedIn = authCtx.isLoggedIn;
 
+
   const logoutHandler = ()=> {
     alert("Do you want Logout")
      authCtx.Logout();
@@ -19,16 +20,15 @@ const Header = (props) => {
   };
   
   return (
-    <>
     <div style={{backgroundColor: 'beige'}}>
       <Nav className="justify-content-center" activeKey="/home">
-      <div style={{margin:'20px'}}><Link to="/">HOME</Link></div>
+      <div style={{margin:'20px'}}><Link to="/">SignUp</Link></div>
+    
+    {!isLoggedIn && <div style={{margin:'20px'}}><Link to="login" onClick={logoutHandler}><Button variant="outline-danger">Logout</Button></Link></div>}
 
-      {!isLoggedIn && <div style={{margin:'20px'}}><Link to="login" onClick={logoutHandler}>Logout</Link></div>}
       </Nav>
        </div>
-    </>
-  );
+  )
 };
 
 export default Header;

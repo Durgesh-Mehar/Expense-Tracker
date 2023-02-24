@@ -1,11 +1,13 @@
 import React from 'react'
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
+import Expense from '../Expense/Expense';
 
 
 
 const Welcome = () => {
 
+  
   const VerifyEmailId = () => {
     let token = localStorage.getItem("token");
     fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDh86gDOATmnQKrj5jnVFM7Ck9PbeaR0W0',{
@@ -35,17 +37,21 @@ const Welcome = () => {
   })
   }
 
+
   return (
     <div>
+    <div style={{fontSize:'200%'}}>
       Welcome to Expense Tracker
-    <p style={{textAlign:'right'}}>
+      </div>
+    <Button variant="outline-success" onClick={VerifyEmailId} style={{float:'right',marginBottom:'500px'}}>Verify Email </Button>
+    <p>
     Your profile is incomplete 
     <Link to='completeprofile'><span>Complete now</span></Link>
     </p>  
     <hr/>
-    <Button variant="success" onClick={VerifyEmailId}>Verify Email </Button>
+   <div style={{padding:'2%'}}><Expense/></div>
     </div>
   )
-}
+};
 
 export default Welcome;

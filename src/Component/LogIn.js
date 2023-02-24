@@ -6,7 +6,7 @@ export default function LogIn() {
   const history = useNavigate();
   const emailInputref = useRef();
   const passwordInputref = useRef();
-  
+
     const handleForgotPassword = (e) => {
         e.preventDefault();
         const enteredEmail = emailInputref.current.value;
@@ -77,6 +77,7 @@ export default function LogIn() {
         localStorage.setItem("token", data.idToken);
         console.log(data.idToken);
         history('/welcome');
+        //history('/expense');
       })
       .catch((err) => {
         alert(err.message);
