@@ -8,7 +8,7 @@ function Expense() {
     return (
         <>
             <section>
-                <ExpenseForm expensesData={expensesData} setExpensesData={setExpensesData} />
+                <ExpenseForm  setExpensesData={setExpensesData} />
                 <ExpenseTable expensesData={expensesData} />
             </section>
         </>

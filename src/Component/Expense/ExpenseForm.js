@@ -2,14 +2,12 @@ import React, { useRef } from "react";
 
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 
-function ExpenseForm(props) {
+ function ExpenseForm(props) {
   const amountInputRef = useRef();
-
   const descriptionInputRef = useRef();
-
   const categoryInputRef = useRef();
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     const expenseData = {
@@ -20,14 +18,28 @@ function ExpenseForm(props) {
       Category: categoryInputRef.current.value,
     };
 
-    //we get expenses data
+    //we add  expenses data to Firebase!!!
 
+    const response = await fetch(
+      'https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata.json',
+      {
+        method: "POST",
+        body: JSON.stringify(expenseData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+  
+    
     //can save in an array
 
     console.log(expenseData);
 
     props.setExpensesData((data) => [...data, expenseData]);
-  };
+  }
 
   return (
     <Container
