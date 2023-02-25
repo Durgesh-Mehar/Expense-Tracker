@@ -4,12 +4,12 @@ import ExpenseForm from "./ExpenseForm";
 
 function Expense() {
     const [expensesData,setExpensesData] =useState([]);
-    console.log(expensesData)
+    
     return (
         <>
             <section>
                 <ExpenseForm  setExpensesData={setExpensesData} />
-                <ExpenseTable expensesData={expensesData} />
+                <ExpenseTable expensesData={expensesData}  setExpensesData={setExpensesData}/>
             </section>
         </>
     );

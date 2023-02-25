@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 
- function ExpenseForm(props) {
+function ExpenseForm(props) {
   const amountInputRef = useRef();
   const descriptionInputRef = useRef();
   const categoryInputRef = useRef();
@@ -12,16 +12,14 @@ import { Form, Button, Row, Col, Container } from "react-bootstrap";
 
     const expenseData = {
       Amount: amountInputRef.current.value,
-
       Description: descriptionInputRef.current.value,
-
       Category: categoryInputRef.current.value,
     };
 
     //we add  expenses data to Firebase!!!
 
     const response = await fetch(
-      'https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata.json',
+      "https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata.json",
       {
         method: "POST",
         body: JSON.stringify(expenseData),
@@ -31,15 +29,14 @@ import { Form, Button, Row, Col, Container } from "react-bootstrap";
       }
     );
     const data = await response.json();
-    console.log(data);
-  
-    
+      console.log(data);
+
     //can save in an array
 
-    console.log(expenseData);
+    // console.log(expenseData);
 
     props.setExpensesData((data) => [...data, expenseData]);
-  }
+  };
 
   return (
     <Container
