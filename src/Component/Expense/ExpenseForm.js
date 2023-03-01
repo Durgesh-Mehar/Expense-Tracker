@@ -10,7 +10,7 @@ function ExpenseForm(props) {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    const expenseData = {
+  const expenseData = {
       Amount: amountInputRef.current.value,
       Description: descriptionInputRef.current.value,
       Category: categoryInputRef.current.value,
@@ -36,6 +36,9 @@ function ExpenseForm(props) {
     // console.log(expenseData);
 
     props.setExpensesData((data) => [...data, expenseData]);
+
+    amountInputRef.current.value = '';
+    descriptionInputRef.current.value = '';
   };
 
   return (

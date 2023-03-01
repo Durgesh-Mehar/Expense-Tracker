@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState, useCallback } from "react";
+import { Button } from "react-bootstrap";
 
 function ExpenseTable(props) {
   const getExpenseData = async () => {
@@ -7,7 +8,7 @@ function ExpenseTable(props) {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+       // console.log(data);
 
         const transformedData = [];
 
@@ -30,23 +31,72 @@ function ExpenseTable(props) {
     getExpenseData();
   }, []);
 
+  const  deleteExpenseHandler =  (id) => {
+  
+     fetch(
+      `https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata/${id}.json`,
+      {
+        method: "DELETE", 
+  
+      }) .then((response) => response.json())
+      .then((data) => {
+       // console.log(data);
+         getExpenseData();
+         console.log ("Expense successfuly deleted");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+     
+    }
+
+  
+
+  
+  const  editExpenseHandler =  (id) => {
+    console.log(id)
+    console.log(props)
+
+
+    
+    const response =  fetch(
+      `https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata/${id}.json`,
+      {
+        method: "PUT", 
+        body: JSON.stringify(props.expensesData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }) .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+   
+  }
+
+  
   
   return (
     <Fragment>
       <h1 style={{ textAlign: "center" }}>Expenses</h1>
       <div>
-        {props.expensesData.map((expense, index) => (
+        {props.expensesData.map((expense, id) => (
           <div
             className=" d-flex justify-content-around mx-5 p-1 shadow"
-            key={index}
+            key={id}
           >
             <p>Amount: $ {expense.Amount}</p>
             <p class="text-justify">Description : {expense.Description}</p>
             <p>Category : {expense.Category}</p>
+            <Button onClick={()=>editExpenseHandler(expense.id)}>Edit</Button>
+            <Button onClick={()=>deleteExpenseHandler(expense.id)}>Delete</Button> 
           </div>
         ))}
       </div>
-      ;
     </Fragment>
   );
 }
