@@ -11,10 +11,10 @@ import Download from "../pages/Download";
 const Header = (props) => {
   const dispatch = useDispatch();
   
-
+  
   const dark = useSelector(state => state.dark.showDarkTheme);
   const showActivefiture = useSelector(state => state.primium.showfiture)
-  
+  const show = useSelector(state => state.auth.isLogin)
   const logoutHandler = ()=> {
     alert("Do you want Logout")
     dispatch(authActions.logout())
@@ -28,7 +28,7 @@ const Header = (props) => {
     <div style={{backgroundColor: 'beige'}}>
       <Nav className="justify-content-center" activeKey="/home">
     {showActivefiture &&  <div style={{margin:'20px'}}><Button variant="dark" onClick={darkHandler}>{dark ? "Light Theme" : "Dark Theme"}</Button></div>}
-   <div style={{margin:'20px'}}><Link to="/" onClick={logoutHandler}><Button variant="outline-danger">Logout</Button></Link></div>
+    {show && <div style={{margin:'20px'}}><Link to="/" onClick={logoutHandler}><Button variant="outline-danger">Logout</Button></Link></div>}
     {showActivefiture && <div style={{margin:'20px'}}> <Download/></div>}
       </Nav>
        </div>

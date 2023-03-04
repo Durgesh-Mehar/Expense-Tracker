@@ -44,8 +44,8 @@ function ExpenseForm(props) {
     descriptionInputRef.current.value = "";
   };
 
-  const getExpenseData = async () => {
-    const response = await fetch(
+  const getExpenseData = () => {
+    const response = fetch(
       "https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata.json"
     )
       .then((response) => response.json())
