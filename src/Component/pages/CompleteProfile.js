@@ -1,9 +1,10 @@
 import { useRef, useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
 
 function CompleteProfile() {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("idToken");
   const nameRef = useRef();
   const photourlRef = useRef();
 
@@ -88,13 +89,13 @@ function CompleteProfile() {
 
   return (
     <div style={{ margin: "12%", paddingBottom: "20%" }}>
-      <Button
+      <Link to='/welcome'><Button
         variant="danger"
         type="submit"
         style={{ justifyItems: "end", float: "right", marginBottom: "1%" }}
       >
         cancel
-      </Button>
+      </Button></Link>
       <Form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Full Name</Form.Label>

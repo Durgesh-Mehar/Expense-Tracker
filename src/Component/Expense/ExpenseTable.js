@@ -1,5 +1,7 @@
-import React, { Fragment, useEffect, useState, useCallback } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Button } from "react-bootstrap";
+
+
 
 function ExpenseTable(props) {
   const getExpenseData = async () => {
@@ -8,7 +10,7 @@ function ExpenseTable(props) {
     )
       .then((response) => response.json())
       .then((data) => {
-       // console.log(data);
+        console.log(data);
 
         const transformedData = [];
 
@@ -50,34 +52,42 @@ function ExpenseTable(props) {
      
     }
 
+
+  const  editExpenseHandler =  (expense) => {
+    console.log(props.expenseData)
   
-
-  
-  const  editExpenseHandler =  (id) => {
-    console.log(id)
-    console.log(props)
-
-
     
-    const response =  fetch(
-      `https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata/${id}.json`,
-      {
-        method: "PUT", 
-        body: JSON.stringify(props.expensesData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }) .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-   
+    //deleteExpenseHandler(expense.id);  
   }
 
+
+//   const editExpenseHandler = (expense)=>{
+    
+//     const filteredList = props.expensesData.filter((lst)=>lst.Amount===expense.Amount);
+//     console.log(filteredList)
+    
+//     for( let i = 0; i < expense.length; i++){ 
+
+//         if ( expense[i] === filteredList[0]) { 
+
+//             const Amount = prompt('Enter the Amount', expense[i].Amount);
+//             const Description  = prompt('Enter the Description', expense[i].Description);
+//             const Category = prompt('Enter the Category', expense[i].category);
+//             expense.splice(i, 1,{Amount:Amount,Description:Description,Category:Category});
+//         }
+//       reqPUT(expense).then(res=>{props.setExpensesData([...expense])})
+//         console.log(expense)
+//     }
+// }
+
+
+// async function reqPUT(){
+//     const response = await fetch("https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata.json",
+//     {
+//         method:'PUT',
+//         body:JSON.stringify(props.expensesData)
+//     })
+// }
   
   
   return (
@@ -92,7 +102,7 @@ function ExpenseTable(props) {
             <p>Amount: $ {expense.Amount}</p>
             <p class="text-justify">Description : {expense.Description}</p>
             <p>Category : {expense.Category}</p>
-            <Button onClick={()=>editExpenseHandler(expense.id)}>Edit</Button>
+            <Button onClick={()=>editExpenseHandler(expense)}>Edit</Button>
             <Button onClick={()=>deleteExpenseHandler(expense.id)}>Delete</Button> 
           </div>
         ))}

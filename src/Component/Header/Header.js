@@ -1,31 +1,35 @@
 import React, {useContext} from "react";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
-import { Link, useNavigate } from "react-router-dom";
-import AuthContext from "../Context/AuthContext";
-
-
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authActions } from "../Store/AuthSlicer";
+import { darkAction } from "../Store/DarkSlicer";
+import { useSelector } from 'react-redux';
+import Download from "../pages/Download";
 
 const Header = (props) => {
+  const dispatch = useDispatch();
+  
 
-  const authCtx = useContext(AuthContext);
-  const history = useNavigate();
-  const isLoggedIn = authCtx.isLoggedIn;
-
-
+  const dark = useSelector(state => state.dark.showDarkTheme);
+  const showActivefiture = useSelector(state => state.primium.showfiture)
+  
   const logoutHandler = ()=> {
     alert("Do you want Logout")
-     authCtx.Logout();
-    history('login')
+    dispatch(authActions.logout())
   };
+
+  const darkHandler = () => {
+     dispatch(darkAction.showDark());
+  }; 
   
   return (
     <div style={{backgroundColor: 'beige'}}>
       <Nav className="justify-content-center" activeKey="/home">
-      <div style={{margin:'20px'}}><Link to="/">SignUp</Link></div>
-    
-    {!isLoggedIn && <div style={{margin:'20px'}}><Link to="login" onClick={logoutHandler}><Button variant="outline-danger">Logout</Button></Link></div>}
-
+    {showActivefiture &&  <div style={{margin:'20px'}}><Button variant="dark" onClick={darkHandler}>{dark ? "Light Theme" : "Dark Theme"}</Button></div>}
+   <div style={{margin:'20px'}}><Link to="/" onClick={logoutHandler}><Button variant="outline-danger">Logout</Button></Link></div>
+    {showActivefiture && <div style={{margin:'20px'}}> <Download/></div>}
       </Nav>
        </div>
   )

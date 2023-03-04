@@ -105,7 +105,7 @@ export default function SignUp() {
                     <div className="mt-3">
                         <p className="mb-0  text-center">
                           Already have an account??{" "}
-                          <Link className="text-primary fw-bold" to="login">Log in</Link>
+                          <Link className="text-primary fw-bold" to="/">Log in</Link>
                         </p>
                     </div>
                   </div>

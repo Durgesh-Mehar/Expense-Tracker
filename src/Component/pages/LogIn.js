@@ -1,11 +1,16 @@
 import React, { useRef } from "react";
 import { useNavigate,Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authActions } from "../Store/AuthSlicer";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 
 export default function LogIn() {
   const history = useNavigate();
   const emailInputref = useRef();
   const passwordInputref = useRef();
+  const dispatch = useDispatch();
+
+
 
     const handleForgotPassword = (e) => {
         e.preventDefault();
@@ -74,10 +79,10 @@ export default function LogIn() {
         }
       })
       .then((data) => {
-        localStorage.setItem("token", data.idToken);
+       // localStorage.setItem("token", data.idToken);
+       dispatch(authActions.login(data.idToken));
         console.log(data.idToken);
         history('/welcome');
-        //history('/expense');
       })
       .catch((err) => {
         alert(err.message);
@@ -134,6 +139,10 @@ export default function LogIn() {
                         <p className="mb-0  text-center">
                         Forget passward??{" "}
                           <Link className="text-primary fw-bold"onClick={handleForgotPassword} >forget passward</Link>
+                        </p>
+                        <p className="mb-0  text-center">
+                        Create New Account??{" "}
+                          <Link to="/signup" className="text-primary fw-bold">Sign Up</Link>
                         </p>
                     </div>
 
