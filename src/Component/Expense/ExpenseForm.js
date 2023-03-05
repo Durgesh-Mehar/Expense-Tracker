@@ -24,7 +24,7 @@ function ExpenseForm(props) {
     };
 
     const response = await fetch(
-      "https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata.json",
+      `https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata/${localStorage.getItem("email")}.json`,
       {
         method: "POST",
         body: JSON.stringify(expenseData),
@@ -46,7 +46,7 @@ function ExpenseForm(props) {
 
   const getExpenseData = () => {
     const response = fetch(
-      "https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata.json"
+      `https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata/${localStorage.getItem("email")}.json`
     )
       .then((response) => response.json())
       .then((data) => {
