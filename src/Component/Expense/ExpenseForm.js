@@ -76,17 +76,18 @@ function ExpenseForm(props) {
   }, []);
 
   const deleteExpenseHandler = (id) => {
+  
     fetch(
-      `https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata/${id}.json`,
+      `https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata/${localStorage.getItem("email")}/${id}.json`,
       {
         method: "DELETE",
       }
-    )
+      )
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         getExpenseData();
-        console.log("Expense successfuly deleted");
+        console.log("Expense successfulyghfjfd deleted",id);
       })
       .catch((error) => {
         console.log(error);
