@@ -11,7 +11,7 @@ function ExpenseForm(props) {
   const categoryInputRef = useRef();
   const dispatch = useDispatch();
   const Hellow = useSelector((state) => state.expense.expenses);
-
+  console.log(Hellow)
   const submitHandler = async (event) => {
     event.preventDefault();
 
@@ -22,9 +22,9 @@ function ExpenseForm(props) {
       Description: descriptionInputRef.current.value,
       Category: categoryInputRef.current.value,
     };
-
+  console.log(expenseData);
     const response = await fetch(
-      `https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata/${localStorage.getItem("email")}.json`,
+      `https://expense-tracker-e054b-default-rtdb.firebaseio.com/expensedata/${localStorage.getItem("email")}.json`,
       {
         method: "POST",
         body: JSON.stringify(expenseData),
@@ -46,7 +46,7 @@ function ExpenseForm(props) {
 
   const getExpenseData = () => {
     const response = fetch(
-      `https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata/${localStorage.getItem("email")}.json`
+      `https://expense-tracker-e054b-default-rtdb.firebaseio.com/expensedata/${localStorage.getItem("email")}.json`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -78,7 +78,7 @@ function ExpenseForm(props) {
   const deleteExpenseHandler = (id) => {
   
     fetch(
-      `https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata/${localStorage.getItem("email")}/${id}.json`,
+      `https://expense-tracker-e054b-default-rtdb.firebaseio.com/expensedata/${localStorage.getItem("email")}/${id}.json`,
       {
         method: "DELETE",
       }
@@ -87,7 +87,7 @@ function ExpenseForm(props) {
       .then((data) => {
         console.log(data);
         getExpenseData();
-        console.log("Expense successfulyghfjfd deleted",id);
+        console.log("Expense successfully deleted",id);
       })
       .catch((error) => {
         console.log(error);
