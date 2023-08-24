@@ -16,4 +16,4 @@ router.post('/add-expense',expenseControlleres.addExpense);
 
 router.delete('/delete-expense/:id',expenseControlleres.deleteresExpense)
 
-module.exports = router; 
+module.exports = router;  

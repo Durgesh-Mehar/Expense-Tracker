@@ -11,57 +11,66 @@ function ExpenseForm(props) {
   const categoryInputRef = useRef();
   const dispatch = useDispatch();
   const Hellow = useSelector((state) => state.expense.expenses);
-  console.log(Hellow)
+  
+
+
+
   const submitHandler = async (event) => {
     event.preventDefault();
-
-    //we add  expenses data to Firebase!!!
-
+  
     const expenseData = {
       Amount: amountInputRef.current.value,
       Description: descriptionInputRef.current.value,
       Category: categoryInputRef.current.value,
     };
-  console.log(expenseData);
-    const response = await fetch(
-      `https://http://localhost:3000/add-expense/${localStorage.getItem("email")}.json`,
-      {
-        method: "POST",
-        body: JSON.stringify(expenseData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await response.json();
-    console.log(data);
-    getExpenseData();
-    //can save in an array
-
-    //props.setExpensesData((data) => [...data, expenseData]);
-
-    amountInputRef.current.value = "";
-    descriptionInputRef.current.value = "";
+  
+    try {
+      const response = await fetch(
+        `http://localhost:3000/add-expense`,
+        {
+          method: "POST",
+          body: JSON.stringify(expenseData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      // if (!response.ok) {
+      //   throw new Error('Network response was not ok');
+      // }
+  
+      //const data = await response.json();
+      // console.log(data);
+      getExpenseData();
+      console.log('getExpense Function called');
+  
+      amountInputRef.current.value = "";
+      descriptionInputRef.current.value = "";
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
   };
-
+  
   const getExpenseData = () => {
     const response = fetch(
-      `https://http://localhost:3000/get-expense/${localStorage.getItem("email")}.json`
+      `http://localhost:3000/get-expense`
     )
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
+         //console.log(data);
 
         const transformedData = [];
 
         for (const key in data) {
           transformedData.push({
-            id: key,
-            Category: data[key].Category,
-            Description: data[key].Description,
+            id: data[key].id,
             Amount: data[key].Amount,
+            Description: data[key].Description,
+            Category: data[key].Category,
           });
         }
+        console.log(transformedData)
         // props.setExpensesData(transformedData);
         dispatch(expensesActions.setExpenses(transformedData));
     
@@ -73,17 +82,18 @@ function ExpenseForm(props) {
 
   useEffect(() => {
     getExpenseData();
+    console.log('useEffect Get Called')
   }, []);
 
   const deleteExpenseHandler = (id) => {
-  
+    console.log(id)
     fetch(
-      `https://http://localhost:3000/delete-expense/${localStorage.getItem("email")}/${id}.json`,
+      `http://localhost:3000/delete-expense/${id}`,
       {
         method: "DELETE",
       }
       )
-      .then((response) => response.json())
+      .then((response) => response)
       .then((data) => {
         console.log(data);
         getExpenseData();

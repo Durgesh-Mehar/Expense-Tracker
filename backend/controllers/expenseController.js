@@ -43,11 +43,11 @@ module.exports.getExpense = (req,res)=>{
 }
 
 module.exports.addExpense = (req,res)=>{
-    const {amount,description,category} = req.body;
+    const {Amount,Description,Category} = req.body;
     expense.create({
-        amount,
-        description,
-        category 
+      Amount,
+      Description,
+      Category 
     })
     .then(res.sendStatus(200)) 
     .catch((err)=>{
@@ -57,6 +57,7 @@ module.exports.addExpense = (req,res)=>{
 
 module.exports.deleteresExpense = (req,res)=>{
     let id = req.params.id;
+    console.log(id)
     expense.destroy({where:{id:id}})
     .then(res.sendStatus(200))
     .catch(err=>{

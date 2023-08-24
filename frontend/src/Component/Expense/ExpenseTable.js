@@ -4,9 +4,11 @@ import { Button } from "react-bootstrap";
 
 
 function ExpenseTable(props) {
+
+
   const getExpenseData = async () => {
     const response = await fetch(
-      "https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata.json"
+      "http://localhost:3000/get-expense"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -16,7 +18,7 @@ function ExpenseTable(props) {
 
         for (const key in data) {
           transformedData.push({
-            id: key,
+            id: data[key].id,
             Category: data[key].Category,
             Description: data[key].Description,
             Amount: data[key].Amount,
@@ -36,13 +38,13 @@ function ExpenseTable(props) {
   const  deleteExpenseHandler =  (id) => {
   
      fetch(
-      `https://expense-tracker-3d3d0-default-rtdb.firebaseio.com/expensedata/${id}.json`,
+      `http://localhost:3000/delete-expense/${id}`,
       {
         method: "DELETE", 
   
       }) .then((response) => response.json())
       .then((data) => {
-       // console.log(data);
+         console.log(data);
          getExpenseData();
          console.log ("Expense successfuly deleted");
       })
@@ -57,7 +59,7 @@ function ExpenseTable(props) {
     console.log(props.expenseData)
   
     
-    //deleteExpenseHandler(expense.id);  
+    deleteExpenseHandler(expense.id);  
   }
 
 
